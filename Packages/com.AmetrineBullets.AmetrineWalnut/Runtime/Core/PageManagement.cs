@@ -50,14 +50,14 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             }
         }
 
-        public Task PopPage()
+        public async Task PopPage()
         {
-            throw new NotImplementedException();
+            await _desk.PeekBook().PopPage();
         }
 
-        public Task PopBook()
+        public async Task PopBook()
         {
-            throw new NotImplementedException();
+            await _desk.PopBook();
         }
 
         public Task PopTargetPage(IPage page)
