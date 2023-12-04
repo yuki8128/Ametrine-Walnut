@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 namespace com.AmetrineBullets.AmetrineWalnut.Interface{
 
     public interface IPageManagement {
+        public UniTask Init(IBook defaultBook, IPage defaultPage);
         public UniTask PushPage(IPage page, IBook book = null, bool isClearHistory = false);
         public void PopPage();
         public void PopBook();

@@ -13,6 +13,8 @@ namespace com.AmetrineBullets.AmetrineWalnut.Interface
         public Task PopBook();
 
         public Task<IBook> PeekBook();
-        public Task<IBook> DefaultBook();
+        public IBook GetDefaultBook();
+        public void SetDefaultBook(IBook book);
+        public Task ClearDesk();
     }
 }

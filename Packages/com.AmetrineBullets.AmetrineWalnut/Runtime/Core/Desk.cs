@@ -22,12 +22,27 @@ public class Desk : IDesk
 
     public async Task PushBook(IBook book, IPage page, bool isClearHistory = false)
     {
+
         if (_bookHistory.Count > 0)
         {
-            _bookHistory.Peek().Suspend();
+            if (book.BookName != _bookHistory.Peek().BookName)
+            {
+                await _bookHistory.Peek().Suspend();
+            }
+            if (isClearHistory)
+            {
+                // 本当はここにDispose処理が来る
+                _bookHistory.Clear();
+            }
+            if (!isClearHistory && book.BookName != _bookHistory.Peek().BookName)
+            {
+                _bookHistory.Push(book);
+                await book.Open();
+            }
         }
-        _bookHistory.Push(book);
-        await book.Open();
+
+        // すでに同じページが開かれていてもPushPageする
+        // 例えばポップアップからポップアップに遷移する時ポップアップの種類は同じだけど中身の値やアイテムが違う、などの場合は同じページだけど遷移したいため。
         await book.PushPage(page);
         return;
     }
@@ -35,7 +50,7 @@ public class Desk : IDesk
     public async Task PopBook()
     {
         IBook previousBook = _bookHistory.Pop();
-        previousBook.Close();
+        await previousBook.Close();
         return;
     }
     
@@ -45,7 +60,7 @@ public class Desk : IDesk
         
     }
     
-    public async Task<IBook> DefaultBook()
+    public IBook GetDefaultBook()
     {
         return defaultBook;
     }
@@ -54,4 +69,11 @@ public class Desk : IDesk
     {
         this.defaultBook = book;
     }
+
+    public async Task ClearDesk()
+    {
+        // 本当はここにDispose処理が来る
+        _bookHistory.Clear();
+        defaultBook = null;
+    } 
 }

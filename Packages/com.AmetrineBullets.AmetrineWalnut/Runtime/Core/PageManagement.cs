@@ -31,6 +31,13 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             }
         }
 
+        public async Task Init(IBook defaultBook, IPage defaultPage)
+        {
+            await _desk.ClearDesk();
+            _desk.SetDefaultBook(defaultBook);
+            await _desk.PushBook(defaultBook,defaultPage);
+        }
+
         public async Task PushPage(IPage page, IBook book = null, bool isClearHistory = false)
         {
             if (book != null)

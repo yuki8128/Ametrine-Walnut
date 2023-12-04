@@ -29,6 +29,10 @@ public class StackKeyedCollection<TKey, TItem> : KeyedCollection<TKey, TItem>
 
     public void Push(TItem item)
     {
+        if (this.Contains(item))
+        {
+            this.Remove(item);
+        }
         this.Add(item);
     }
 
