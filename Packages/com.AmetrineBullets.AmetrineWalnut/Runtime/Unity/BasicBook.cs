@@ -6,21 +6,17 @@ using UnityEngine;
 
 namespace com.AmetrineBullets.AmetrineWalnut.Unity
 {
-    public class BasicBook : Book
+    public abstract class BasicBook : Book
     {
         public BasicBook(IPage defaultPage)
         {
             base.defaultPage = defaultPage;
         }
 
-        public override UniTask Open()
-        {
-            throw new System.NotImplementedException();
+        public override async UniTask Open(){
+            await base.defaultPage.PageVisible();
         }
 
-        public override void Dispose()
-        {
-            throw new System.NotImplementedException();
-        }
+        public abstract override void Dispose();
     }
 }

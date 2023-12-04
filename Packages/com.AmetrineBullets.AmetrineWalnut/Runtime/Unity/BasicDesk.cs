@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace com.AmetrineBullets.AmetrineWalnut.Unity
 {
-    public class BasicDesk : Desk
+    public abstract class BasicDesk : Desk
     {
         public BasicDesk(IBook defaultBook)
         {
