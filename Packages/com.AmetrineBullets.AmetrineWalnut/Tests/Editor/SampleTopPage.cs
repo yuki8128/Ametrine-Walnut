@@ -42,6 +42,8 @@ public class SampleTopPage : Page<SampleTopPage>
 //        go = Object.Instantiate(prefab, new Vector3(100.0f, 100.0f, -8.0f), Quaternion.Euler(0f, 0f, 0f),
 //            myCanvas.transform);
         go = Object.Instantiate(prefab, myCanvas.transform);
+
+        await UniTask.RunOnThreadPool(() => { });
     }
 
     public override UniTask PageVisible()
