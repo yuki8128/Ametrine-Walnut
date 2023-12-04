@@ -12,7 +12,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Unity
 {
     public abstract class BasicPage : Page<BasicPage>
     {
-        private GameObject pagePrefab;
+        protected GameObject pagePrefab;
         
         public override bool IsEqualPage(PageNameEnum pageName)
         {
