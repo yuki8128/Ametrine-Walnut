@@ -1,17 +1,20 @@
+
+using System.Threading.Tasks;
 #if UNITY_EDITOR || UNITY_STANDALONE
 using Cysharp.Threading.Tasks;
+using Task = Cysharp.Threading.Tasks.UniTask;
 #endif
 
 
 namespace com.AmetrineBullets.AmetrineWalnut.Interface{
 
     public interface IPageManagement {
-        public UniTask Init(IBook defaultBook, IPage defaultPage);
-        public UniTask PushPage(IPage page, IBook book = null, bool isClearHistory = false);
-        public void PopPage();
-        public void PopBook();
+        public Task Init(IBook defaultBook, IPage defaultPage);
+        public Task PushPage(IPage page, IBook book = null, bool isClearHistory = false);
+        public Task PopPage();
+        public Task PopBook();
         
-        public void PopTargetPage(IPage page);
+        public Task PopTargetPage(IPage page);
         
     }
 }

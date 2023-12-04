@@ -54,7 +54,7 @@ public class Desk : IDesk
         return;
     }
     
-    public async Task<IBook> PeekBook()
+    public IBook PeekBook()
     {
         return _bookHistory.Peek();
         

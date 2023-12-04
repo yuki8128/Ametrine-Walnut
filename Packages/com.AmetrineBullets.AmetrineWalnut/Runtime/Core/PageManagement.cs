@@ -46,33 +46,33 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             }
             else
             {
-                await _desk.PushBook(await _desk.PeekBook(),page,isClearHistory);
+                await _desk.PushBook(_desk.PeekBook(),page,isClearHistory);
             }
         }
 
-        public void PopPage()
+        public Task PopPage()
         {
             throw new NotImplementedException();
         }
 
-        public void PopBook()
+        public Task PopBook()
         {
             throw new NotImplementedException();
         }
 
-        public void PopTargetPage(IPage page)
+        public Task PopTargetPage(IPage page)
         {
             throw new NotImplementedException();
         }
         
         public IPage PeekPage()
         {
-            return _desk.PeekBook().Result.PeekPage();
+            return _desk.PeekBook().PeekPage();
         }
         
         public IBook PeekBook()
         {
-            return _desk.PeekBook().Result;
+            return _desk.PeekBook();
         }
         
         public void SetDesk(IDesk desk)
