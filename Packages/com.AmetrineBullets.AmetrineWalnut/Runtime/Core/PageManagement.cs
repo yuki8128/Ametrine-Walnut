@@ -11,11 +11,11 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
 {
     public class PageManagement : IPageManagement
     {
-        private static PageManagement instance { get; set; }
+        protected static PageManagement instance { get; set; }
 
         private IDesk _desk;
 
-        private PageManagement()
+        protected PageManagement()
         {
             
         }
