@@ -1,19 +1,19 @@
 {
-    "name": "com.ametrinebullets.ametrinewalnut",
-    "version": "0.1.4",
-    "displayName": "Ametrine Walnut",
-    "description": "Libraries for scene management.",
-    "unity": "2022.3",
-    "unityRelease": "14f1",
-    "dependencies": {
-      "com.cysharp.unitask": "2.5.0"
-    },
-    "keywords": [
-      "SceneManager"
-    ],
-    "author": {
-      "name": "Yuki",
-      "email": "yuki8128@outlook.com",
-      "url": "https://github.com/yuki8128"
-    }
+  "name": "com.ametrinebullets.ametrinewalnut",
+  "version": "0.1.5",
+  "displayName": "Ametrine Walnut",
+  "description": "Libraries for scene management.",
+  "unity": "2022.3",
+  "unityRelease": "14f1",
+  "dependencies": {
+    "com.cysharp.unitask": "2.5.0"
+  },
+  "keywords": [
+    "SceneManager"
+  ],
+  "author": {
+    "name": "Yuki",
+    "email": "yuki8128@outlook.com",
+    "url": "https://github.com/yuki8128"
   }
+}

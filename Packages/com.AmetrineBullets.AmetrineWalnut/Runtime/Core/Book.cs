@@ -36,6 +36,8 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
         {
             UniTask EntryTransitionTask = new UniTask();
 
+            await page.Init();
+
             //        元々表示されてるページの非表示処理
             if (_pageHistory.Count > 0)
             {
