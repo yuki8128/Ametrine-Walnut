@@ -13,7 +13,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
     public class Desk : IDesk
     {
         private StackKeyedCollection<String, IBook> _bookHistory =
-            new StackKeyedCollection<String, IBook>(book => book.BookName);
+            new StackKeyedCollection<String, IBook>(book => book.GetBookName());
 
         protected IBook defaultBook;
 
@@ -27,20 +27,43 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
 
             if (_bookHistory.Count > 0)
             {
-                if (book.BookName != _bookHistory.Peek().BookName)
+                var currentBookName = _bookHistory.Peek().GetBookName();
+                // 今開いてるBookと違うBookを開く時
+                if (book.GetBookName() != currentBookName)
                 {
-                    await _bookHistory.Peek().Suspend();
+                    var previousBook = _bookHistory.Peek();
+
+                    await previousBook.PreExitTransition();
+                    await previousBook.ExitTransition();
+                    await previousBook.PostExitTransition();
+
+                    await previousBook.Suspend();
                 }
+
                 if (isClearHistory)
                 {
-                    // 本当はここにDispose処理が来る
+                    // TODO 本当はここにDispose処理が来る
+                    // 全てのBookに対してのClose処理も来る
                     _bookHistory.Clear();
                 }
-                if (!isClearHistory && book.BookName != _bookHistory.Peek().BookName)
+
+                if (book.GetBookName() != currentBookName)
                 {
                     _bookHistory.Push(book);
+
+                    await book.PreEntryTransition();
+                    await book.EntryTransition();
+                    await book.PostEntryTransition();
+
                     await book.Open();
                 }
+            }
+            // 履歴がなければそのままPushしてOpenする
+            else
+            {
+                _bookHistory.Push(book);
+
+                await book.Open();
             }
 
             // すでに同じページが開かれていてもPushPageする
@@ -52,7 +75,20 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
         public async Task PopBook()
         {
             IBook previousBook = _bookHistory.Pop();
+
+            await previousBook.PreExitTransition();
+            await previousBook.ExitTransition();
+            await previousBook.PostExitTransition();
+
             await previousBook.Close();
+
+            IBook book = _bookHistory.Peek();
+
+            await book.PreEntryTransition();
+            await book.EntryTransition();
+            await book.PostEntryTransition();
+
+            await book.Open();
             return;
         }
 
@@ -74,7 +110,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
 
         public async Task ClearDesk()
         {
-            // 本当はここにDispose処理が来る
+            // TODO 本当はここにDispose処理が来る
             _bookHistory.Clear();
             defaultBook = null;
         }

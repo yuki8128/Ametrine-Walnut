@@ -15,11 +15,13 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
 
         private IDesk _desk;
 
+        protected bool isInited = false;
+
         protected PageManagement()
         {
-            
+
         }
-        
+
         public static PageManagement Instance
         {
             get
@@ -31,11 +33,13 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             }
         }
 
-        public async Task Init(IBook defaultBook, IPage defaultPage)
+        public async Task Init(IBook defaultBook, IPage defaultPage, bool isForceInit = false)
         {
-            await _desk.ClearDesk();
+            if (!isInited || isForceInit)
+                await _desk.ClearDesk();
             _desk.SetDefaultBook(defaultBook);
-            await _desk.PushBook(defaultBook,defaultPage);
+            await _desk.PushBook(defaultBook, defaultPage);
+            isInited = true;
         }
 
         public async Task PushPage(IPage page, IBook book = null, bool isClearHistory = false)
@@ -46,7 +50,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             }
             else
             {
-                await _desk.PushBook(_desk.PeekBook(),page,isClearHistory);
+                await _desk.PushBook(_desk.PeekBook(), page, isClearHistory);
             }
         }
 
@@ -64,17 +68,17 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
         {
             throw new NotImplementedException();
         }
-        
+
         public IPage PeekPage()
         {
             return _desk.PeekBook().PeekPage();
         }
-        
+
         public IBook PeekBook()
         {
             return _desk.PeekBook();
         }
-        
+
         public void SetDesk(IDesk desk)
         {
             this._desk = desk;

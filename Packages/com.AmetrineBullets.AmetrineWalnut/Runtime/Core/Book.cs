@@ -13,11 +13,16 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
 {
     public abstract class Book : IBook
     {
-        public string BookName { get; }
+        protected string BookName;
+
+        public string GetBookName()
+        {
+            return BookName;
+        }
 
         protected IPage defaultPage;
 
-        private StackKeyedCollection<String, IPage> _pageHistory =
+        protected StackKeyedCollection<String, IPage> _pageHistory =
             new StackKeyedCollection<String, IPage>(page => page.PageName);
 
         public abstract Task Open();
@@ -56,31 +61,17 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
                 _pageHistory.Clear();
             }
 
-            //        重複したページをpushした時の動作
             if (_pageHistory.Count > 0)
             {
+                // 重複したページをpushした時の動作
                 if (_pageHistory.Contains(page.ToString()))
                 {
                     _pageHistory.Remove(page.ToString());
                 }
             }
 
-            //        新しいページの表示処理
+            await EasyPageView(page);
 
-            await page.ObjectLoad();
-            _pageHistory.Push(page);
-
-            await page.PreEntryTransition();
-            await page.EntryTransition();
-            await page.PostEntryTransition();
-
-            await page.PrePageVisible();
-            await page.PageVisible();
-            await page.PostPageVisible();
-
-            await page.PreAppearanceEffect();
-            await page.AppearanceEffect();
-            await page.PostAppearanceEffect();
         }
 
         public virtual async Task PopPage()
@@ -120,6 +111,27 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
         public IPage[] GetPages()
         {
             return _pageHistory.ToArray();
+        }
+
+        // ページを表示したい時の簡単セット
+        public async Task EasyPageView(IPage page)
+        {
+            // 新しいページの表示処理
+
+            await page.ObjectLoad();
+            _pageHistory.Push(page);
+
+            await page.PreEntryTransition();
+            await page.EntryTransition();
+            await page.PostEntryTransition();
+
+            await page.PrePageVisible();
+            await page.PageVisible();
+            await page.PostPageVisible();
+
+            await page.PreAppearanceEffect();
+            await page.AppearanceEffect();
+            await page.PostAppearanceEffect();
         }
 
         public abstract void Dispose();

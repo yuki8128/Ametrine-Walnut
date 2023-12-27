@@ -6,15 +6,17 @@ using Task = Cysharp.Threading.Tasks.UniTask;
 #endif
 
 
-namespace com.AmetrineBullets.AmetrineWalnut.Interface{
+namespace com.AmetrineBullets.AmetrineWalnut.Interface
+{
 
-    public interface IPageManagement {
-        public Task Init(IBook defaultBook, IPage defaultPage);
+    public interface IPageManagement
+    {
+        public Task Init(IBook defaultBook, IPage defaultPage, bool isForceInit);
         public Task PushPage(IPage page, IBook book = null, bool isClearHistory = false);
         public Task PopPage();
         public Task PopBook();
-        
+
         public Task PopTargetPage(IPage page);
-        
+
     }
 }
