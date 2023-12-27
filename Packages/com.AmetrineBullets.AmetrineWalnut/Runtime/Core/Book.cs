@@ -41,20 +41,20 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
         {
             UniTask EntryTransitionTask = new UniTask();
 
-            await page.Init();
+            // 元々表示されているページを非表示にする必要はないのでは？
+            // ページはスタックして表示するから非表示にする意味がないはず。 
+            // // 元々表示されてるページの非表示処理
+            // if (_pageHistory.Count > 0)
+            // {
+            //     IPage previousPage = _pageHistory.Peek();
+            //     await previousPage.PreExitTransition();
+            //     await previousPage.ExitTransition();
+            //     await previousPage.PostEntryTransition();
 
-            //        元々表示されてるページの非表示処理
-            if (_pageHistory.Count > 0)
-            {
-                IPage previousPage = _pageHistory.Peek();
-                await previousPage.PreExitTransition();
-                await previousPage.ExitTransition();
-                await previousPage.PostEntryTransition();
-
-                await previousPage.PrePageInvisible();
-                await previousPage.PageInvisible();
-                await previousPage.PostPageInvisible();
-            }
+            //     await previousPage.PrePageInvisible();
+            //     await previousPage.PageInvisible();
+            //     await previousPage.PostPageInvisible();
+            // }
 
             if (isHistoryClear)
             {
@@ -82,15 +82,8 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             await page.PageExitBackPrevious();
             await page.PostPageExitBackPrevious();
 
-            await page.PreExitTransition();
-            await page.ExitTransition();
-            await page.PostEntryTransition();
+            await EasyPageHide(page);
 
-            await page.PrePageInvisible();
-            await page.PageInvisible();
-            await page.PostPageInvisible();
-
-            _pageHistory.Pop();
         }
 
         public virtual IPage PeekPage()
@@ -113,10 +106,32 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             return _pageHistory.ToArray();
         }
 
+        public async Task Suspend()
+        {
+            if (_pageHistory.Count > 0)
+            {
+                IPage page = _pageHistory.Peek();
+                await page.PreExitTransition();
+                await page.ExitTransition();
+                await page.PostEntryTransition();
+
+                await page.PrePageInvisible();
+                await page.PageInvisible();
+                await page.PostPageInvisible();
+            }
+
+            foreach (var item in _pageHistory)
+            {
+                await EasyPageHide(item);
+            }
+        }
+
         // ページを表示したい時の簡単セット
         public async Task EasyPageView(IPage page)
         {
             // 新しいページの表示処理
+
+            await page.Init();
 
             await page.ObjectLoad();
             _pageHistory.Push(page);
@@ -132,6 +147,24 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             await page.PreAppearanceEffect();
             await page.AppearanceEffect();
             await page.PostAppearanceEffect();
+        }
+
+        public async Task EasyPageExit(IPage page)
+        {
+            await page.PreExitTransition();
+            await page.ExitTransition();
+            await page.PostEntryTransition();
+
+            await EasyPageHide(page);
+
+            _pageHistory.Pop();
+        }
+
+        public async Task EasyPageHide(IPage page)
+        {
+            await page.PrePageInvisible();
+            await page.PageInvisible();
+            await page.PostPageInvisible();
         }
 
         public abstract void Dispose();

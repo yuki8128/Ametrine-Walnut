@@ -18,7 +18,10 @@ namespace com.AmetrineBullets.AmetrineWalnut.Unity
 
         public override async UniTask Open()
         {
-            await SceneManager.LoadSceneAsync(GetBookName());
+            if (SceneManager.GetActiveScene().name != GetBookName())
+            {
+                await SceneManager.LoadSceneAsync(GetBookName());
+            }
 
             if (_pageHistory.Count > 0)
             {
