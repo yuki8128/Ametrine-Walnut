@@ -31,10 +31,10 @@ namespace com.AmetrineBullets.AmetrineWalnut.Interface
         {
             await Task.RunOnThreadPool(() => { });
         }
-        //        自身が開かれた時の処理
-        public Task Open();
+        // 自身が開かれた時の処理
+        public Task Open(IPage page = null);
 
-        //        自身が一時的に閉じられるなど
+        // 自身が一時的に閉じられるなど
         public virtual async Task Suspend()
         {
             await UniTask.RunOnThreadPool(() => { });

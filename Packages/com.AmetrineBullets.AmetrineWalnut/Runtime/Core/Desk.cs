@@ -55,7 +55,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
                     await book.EntryTransition();
                     await book.PostEntryTransition();
 
-                    await book.Open();
+                    await book.Open(page);
                 }
             }
             // 履歴がなければそのままPushしてOpenする
@@ -63,12 +63,12 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             {
                 _bookHistory.Push(book);
 
-                await book.Open();
+                await book.Open(page);
             }
 
             // すでに同じページが開かれていてもPushPageする
             // 例えばポップアップからポップアップに遷移する時ポップアップの種類は同じだけど中身の値やアイテムが違う、などの場合は同じページだけど遷移したいため。
-            await book.PushPage(page);
+            // await book.PushPage(page);
             return;
         }
 

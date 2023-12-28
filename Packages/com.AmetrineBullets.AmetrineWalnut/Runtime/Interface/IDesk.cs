@@ -8,6 +8,8 @@ namespace com.AmetrineBullets.AmetrineWalnut.Interface
 {
     public interface IDesk
     {
+
+        public IBook GetCurrentBook();
         public Task PushBook(IBook book, IPage page, bool isClearHistory = false);
 
         public Task PopBook();

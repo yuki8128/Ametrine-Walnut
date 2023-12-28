@@ -50,7 +50,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             }
             else
             {
-                await _desk.PushBook(_desk.PeekBook(), page, isClearHistory);
+                await _desk.GetCurrentBook().PushPage(page, isClearHistory);
             }
         }
 

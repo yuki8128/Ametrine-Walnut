@@ -16,16 +16,21 @@ namespace com.AmetrineBullets.AmetrineWalnut.Unity
             base.BookName = bookName;
         }
 
-        public override async UniTask Open()
+        public override async UniTask Open(IPage page = null)
         {
             if (SceneManager.GetActiveScene().name != GetBookName())
             {
                 await SceneManager.LoadSceneAsync(GetBookName());
             }
 
-            if (_pageHistory.Count > 0)
+            // 開くページを指定していればそのページを開く 
+            if (page != null)
             {
-                // 履歴があれば一番上のページを表示する。
+                await EasyPageView(page);
+            }
+            else if (_pageHistory.Count > 0)
+            {
+                // ページ指定なしで、履歴があれば一番上のページを表示する。
                 await EasyPageView(_pageHistory.Peek());
             }
             else

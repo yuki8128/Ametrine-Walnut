@@ -25,7 +25,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
         protected StackKeyedCollection<String, IPage> _pageHistory =
             new StackKeyedCollection<String, IPage>(page => page.PageName);
 
-        public abstract Task Open();
+        public abstract Task Open(IPage page = null);
 
         public Task Close()
         {
