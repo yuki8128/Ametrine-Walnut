@@ -26,18 +26,18 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
 
         public abstract bool IsEqualPage(PageNameEnum pageName);
 
-        public virtual async UniTask OnActivate()
+        public virtual async Task OnActivate()
         {
-            await UniTask.RunOnThreadPool(() => { });
+            await Task.RunOnThreadPool(() => { });
         }
 
         public abstract Task PageVisible();
 
         public abstract Task PageInvisible();
 
-        public virtual async UniTask OnTransitionIn(UniTaskCompletionSource loadPageCompletionSource)
+        public virtual async Task OnTransitionIn(UniTaskCompletionSource loadPageCompletionSource)
         {
-            await UniTask.RunOnThreadPool(() => { });
+            await Task.RunOnThreadPool(() => { });
         }
     }
 }

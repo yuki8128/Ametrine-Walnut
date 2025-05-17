@@ -50,16 +50,26 @@ public class StackKeyedCollection<TKey, TItem> : KeyedCollection<TKey, TItem>
 
     public TItem PopForTargetItem(TKey key)
     {
-        if (this.Contains(key))
+        if (!this.Contains(key))
         {
-            var result = Pop();
-            if (result.Equals(this[key]))
+            throw new KeyNotFoundException($"No item found with the key '{key}'.");
+        }
+
+        TItem targetItem = this[key];
+        TItem poppedItem = default;
+
+        // 指定されたキーの要素が見つかるまでPopを繰り返す
+        while (this.Count > 0)
+        {
+            poppedItem = Pop();
+            if (EqualityComparer<TItem>.Default.Equals(poppedItem, targetItem))
             {
-                return result;
+                return poppedItem;
             }
         }
 
-        throw new KeyNotFoundException($"No item found with the key '{key}'.");
+        // ここに到達することはないはずだが、念のため例外をスロー
+        throw new InvalidOperationException("Unexpected state in PopForTargetItem.");
     }
 
     public TItem Peek()

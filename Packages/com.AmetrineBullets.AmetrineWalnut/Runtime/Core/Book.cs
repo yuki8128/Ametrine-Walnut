@@ -27,14 +27,15 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
 
         public abstract Task Open(IPage page = null);
 
-        public Task Close()
+        public virtual async Task Close()
         {
-            throw new System.NotImplementedException();
-        }
-
-        public Task NextBook(IBook book)
-        {
-            throw new System.NotImplementedException();
+            // Page スタックにあるすべての Page を非表示にする
+            foreach (var page in _pageHistory.Reverse())
+            {
+                await EasyPageHide(page);
+            }
+            // Page スタックをクリア
+            _pageHistory.Clear();
         }
 
         public virtual async Task PushPage(IPage page, bool isHistoryClear = false)

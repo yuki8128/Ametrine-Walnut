@@ -64,9 +64,11 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             await _desk.PopBook();
         }
 
-        public Task PopTargetPage(IPage page)
+        public async Task PopTargetPage(IPage page)
         {
-            throw new NotImplementedException();
+            // 現在のBookから指定されたページを履歴から削除
+            _desk.PeekBook().GoToBackPage(page.PageName);
+            await Task.CompletedTask; // 非同期メソッドとして定義するため
         }
 
         public IPage PeekPage()

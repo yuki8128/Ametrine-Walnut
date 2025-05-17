@@ -57,8 +57,6 @@ namespace com.AmetrineBullets.AmetrineWalnut.Interface
         //        自身が閉じるとき
         public Task Close();
 
-        public Task NextBook(IBook book);
-
         //        自身にページがpushされた時
         public Task PushPage(IPage page, bool isHistoryClear = false);
 
@@ -67,6 +65,8 @@ namespace com.AmetrineBullets.AmetrineWalnut.Interface
 
         //        自身の配下のページをPeekする時
         public IPage PeekPage();
+
+        public IPage GoToBackPage(string pageName);
 
         public IPage DefaultPage();
 
