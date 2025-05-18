@@ -17,7 +17,7 @@ DeskはBookをまとめたもので最大の単位です。
 
 Unity Package Managerの「Add package from git URL」から以下のURLを入力してください。
 
-`https://github.com/AmetrineBullets/Ametrine-Walnut.git`
+`https://github.com/yuki8128/Ametrine-Walnut.git?path=Packages/com.AmetrineBullets.AmetrineWalnut`
 
 ## 使用方法
 
