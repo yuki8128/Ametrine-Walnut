@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using com.AmetrineBullets.AmetrineWalnut.Interface;
 using System.Threading.Tasks;
 #if UNITY_EDITOR || UNITY_STANDALONE
@@ -10,6 +11,16 @@ using Task = Cysharp.Threading.Tasks.UniTask;
 
 namespace com.AmetrineBullets.AmetrineWalnut.Core
 {
+    /// <summary>
+    /// デバッグ用のページ情報を含むクラス
+    /// </summary>
+    public class DebugPageInfo
+    {
+        public string DeskInfo { get; set; }
+        public string BookName { get; set; }
+        public string PageName { get; set; }
+    }
+
     public class Desk : IDesk
     {
         private StackKeyedCollection<String, IBook> _bookHistory =
@@ -96,6 +107,39 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
         {
             return _bookHistory.Peek();
 
+        }
+
+        /// <summary>
+        /// デバッグ用にBookHistoryと各BookのPageHistoryの情報を取得します。
+        /// 各ページがどのBookに属しているか、そしてそれがどのDeskに関連するかを示すリストを返します。
+        /// </summary>
+        /// <returns>デバッグ用のページ情報を含むDebugPageInfoオブジェクトのリスト</returns>
+        public List<DebugPageInfo> GetDebugHistoryStack()
+        {
+            List<DebugPageInfo> debugList = new List<DebugPageInfo>();
+
+            // BookHistoryはスタックなので、現在のBookから順に処理するのが自然かもしれません。
+            // ここではBookHistory全体の情報をリスト化するため、foreachで回します。
+            foreach (var bookEntry in _bookHistory)
+            {
+                IBook book = bookEntry;
+                IEnumerable<IPage> pageHistory = book.GetPageHistory();
+
+                foreach (var page in pageHistory)
+                {
+                    DebugPageInfo pageInfo = new DebugPageInfo
+                    {
+                        // Deskの情報として、ここではシンプルにクラス名を使用します。
+                        // 必要に応じて、Deskの特定のプロパティ（例: Deskの名前など）を使用できます。
+                        DeskInfo = this.GetType().Name,
+                        BookName = book.GetBookName(),
+                        PageName = page.PageName
+                    };
+                    debugList.Add(pageInfo);
+                }
+            }
+
+            return debugList;
         }
 
         public IBook GetDefaultBook()

@@ -13,7 +13,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
     {
         protected static PageManagement instance { get; set; }
 
-        private IDesk _desk;
+        protected IDesk _desk;
 
         protected bool isInited = false;
 

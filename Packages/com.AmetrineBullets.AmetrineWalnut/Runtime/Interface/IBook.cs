@@ -1,5 +1,5 @@
 
-
+using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 #if UNITY_EDITOR || UNITY_STANDALONE
@@ -72,5 +72,11 @@ namespace com.AmetrineBullets.AmetrineWalnut.Interface
 
         //        新しいリストとしてページ全てを返す
         public IPage[] GetPages();
+
+        /// <summary>
+        /// デバッグ用にPageHistoryの情報を取得します。
+        /// </summary>
+        /// <returns>PageHistoryのIPageのコレクション</returns>
+        public IEnumerable<IPage> GetPageHistory();
     }
 }

@@ -107,6 +107,15 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             return _pageHistory.ToArray();
         }
 
+        /// <summary>
+        /// デバッグ用にPageHistoryの情報を取得します。
+        /// </summary>
+        /// <returns>PageHistoryのIPageのコレクション</returns>
+        public IEnumerable<IPage> GetPageHistory()
+        {
+            return _pageHistory;
+        }
+
         public async Task Suspend()
         {
             if (_pageHistory.Count > 0)
