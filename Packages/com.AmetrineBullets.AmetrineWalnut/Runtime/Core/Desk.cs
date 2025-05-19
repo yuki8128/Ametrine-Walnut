@@ -11,15 +11,6 @@ using Task = Cysharp.Threading.Tasks.UniTask;
 
 namespace com.AmetrineBullets.AmetrineWalnut.Core
 {
-    /// <summary>
-    /// デバッグ用のページ情報を含むクラス
-    /// </summary>
-    public class DebugPageInfo
-    {
-        public string DeskInfo { get; set; }
-        public string BookName { get; set; }
-        public string PageName { get; set; }
-    }
 
     public class Desk : IDesk
     {
