@@ -6,8 +6,8 @@ using Cysharp.Threading.Tasks;
 
 public class SampleBook : Book
 {
-    public new string BookName { get; set;} = "sample";
-    public override UniTask Open()
+    public new string BookName { get; set; } = "sample";
+    public override UniTask Open(IPage page = null)
     {
         throw new System.NotImplementedException();
     }
