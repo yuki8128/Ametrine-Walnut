@@ -16,6 +16,10 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
         protected IDesk _desk;
 
         protected bool isInited = false;
+        public bool IsInitialized
+        {
+            get { return this.isInited; }
+        }
 
         protected PageManagement()
         {
