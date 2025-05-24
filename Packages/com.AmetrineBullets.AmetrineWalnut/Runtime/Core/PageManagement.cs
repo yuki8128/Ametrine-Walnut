@@ -37,7 +37,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             }
         }
 
-        public async Task Init(IBook defaultBook, IPage defaultPage, bool isForceInit = false)
+        public virtual async Task Init(IBook defaultBook, IPage defaultPage, bool isForceInit = false)
         {
             if (!isInited || isForceInit)
                 await _desk.ClearDesk();
