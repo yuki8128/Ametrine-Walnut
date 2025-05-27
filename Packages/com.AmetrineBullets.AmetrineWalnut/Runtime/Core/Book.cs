@@ -134,7 +134,8 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
                 await page.PostPageInvisible();
             }
 
-            foreach (var item in _pageHistory)
+            // 最初の要素は上ですでに非表示にしているので処理をスキップ 
+            foreach (var item in _pageHistory.Skip(1))
             {
                 await EasyPageHide(item);
             }
@@ -144,6 +145,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
         public async Task EasyPageView(IPage page)
         {
             // 新しいページの表示処理
+            // TODO この辺の処理がUnityのライフサイクル(Startとか)と一致していないのでどこかでStartが終わって処理が再開するような感じにしたい。
 
             await page.Init();
 
@@ -167,7 +169,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
         {
             await page.PreExitTransition();
             await page.ExitTransition();
-            await page.PostEntryTransition();
+            await page.PostExitTransition();
 
             await EasyPageHide(page);
 
