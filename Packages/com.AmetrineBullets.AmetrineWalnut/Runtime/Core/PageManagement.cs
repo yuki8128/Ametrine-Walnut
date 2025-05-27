@@ -55,12 +55,14 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
         {
             if (!isInited || isForceInit)
                 await _desk.ClearDesk();
+
+            defaultBook.SetDefaultPage(defaultPage);
             _desk.SetDefaultBook(defaultBook);
-            await _desk.PushBook(defaultBook, defaultPage);
+
             isInited = true;
         }
 
-        public async Task PushPage(IPage page, IBook book = null, bool isClearHistory = false)
+        public virtual async Task PushPage(IPage page, IBook book = null, bool isClearHistory = false)
         {
             if (book != null)
             {
@@ -70,36 +72,39 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             {
                 await _desk.GetCurrentBook().PushPage(page, isClearHistory);
             }
+
+            page.AfterPush().Forget();
+
         }
 
-        public async Task PopPage()
+        public virtual async Task PopPage()
         {
             await _desk.PeekBook().PopPage();
         }
 
-        public async Task PopBook()
+        public virtual async Task PopBook()
         {
             await _desk.PopBook();
         }
 
-        public async Task PopTargetPage(IPage page)
+        public virtual async Task PopTargetPage(IPage page)
         {
             // 現在のBookから指定されたページを履歴から削除
             _desk.PeekBook().GoToBackPage(page.PageName);
             await Task.CompletedTask; // 非同期メソッドとして定義するため
         }
 
-        public IPage PeekPage()
+        public virtual IPage PeekPage()
         {
             return _desk.PeekBook().PeekPage();
         }
 
-        public IBook PeekBook()
+        public virtual IBook PeekBook()
         {
             return _desk.PeekBook();
         }
 
-        public void SetDesk(IDesk desk)
+        public virtual void SetDesk(IDesk desk)
         {
             this._desk = desk;
         }

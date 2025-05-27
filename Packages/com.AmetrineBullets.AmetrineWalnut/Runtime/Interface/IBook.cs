@@ -68,7 +68,9 @@ namespace com.AmetrineBullets.AmetrineWalnut.Interface
 
         public IPage GoToBackPage(string pageName);
 
-        public IPage DefaultPage();
+        public IPage GetDefaultPage();
+
+        public void SetDefaultPage(IPage page);
 
         //        新しいリストとしてページ全てを返す
         public IPage[] GetPages();

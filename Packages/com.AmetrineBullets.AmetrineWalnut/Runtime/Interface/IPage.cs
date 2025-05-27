@@ -68,6 +68,11 @@ namespace com.AmetrineBullets.AmetrineWalnut.Interface
             await Task.RunOnThreadPool(() => { });
         }
 
+        public virtual async Task AfterPush()
+        {
+            await Task.RunOnThreadPool(() => { });
+        }
+
         public virtual async Task PreExitTransition()
         {
             await Task.RunOnThreadPool(() => { });

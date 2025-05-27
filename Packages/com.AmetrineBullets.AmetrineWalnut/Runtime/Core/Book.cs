@@ -97,9 +97,13 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             return _pageHistory.PopForTargetItem(pageName);
         }
 
-        public IPage DefaultPage()
+        public IPage GetDefaultPage()
         {
             return defaultPage;
+        }
+        public void SetDefaultPage(IPage page)
+        {
+            defaultPage = page;
         }
 
         public IPage[] GetPages()
