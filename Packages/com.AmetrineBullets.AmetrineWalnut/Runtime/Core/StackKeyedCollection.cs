@@ -48,6 +48,19 @@ public class StackKeyedCollection<TKey, TItem> : KeyedCollection<TKey, TItem>
         return lastItem;
     }
 
+    public bool TryPop(out TItem item)
+    {
+        if (Count == 0)
+        {
+            item = default;
+            return false;
+        }
+
+        item = this[Count - 1];
+        RemoveAt(Count - 1);
+        return true;
+    }
+
     public TItem PopForTargetItem(TKey key)
     {
         if (!this.Contains(key))
@@ -80,5 +93,17 @@ public class StackKeyedCollection<TKey, TItem> : KeyedCollection<TKey, TItem>
         }
 
         return this[this.Count - 1];
+    }
+
+    public bool TryPeek(out TItem item)
+    {
+        if (Count == 0)
+        {
+            item = default;
+            return false;
+        }
+
+        item = this[^1];
+        return true;
     }
 }

@@ -89,7 +89,11 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
 
         public virtual IPage PeekPage()
         {
-            return _pageHistory.Peek();
+            if (_pageHistory.TryPeek(out IPage page))
+            {
+                return page;
+            }
+            return null;
         }
 
         public IPage GoToBackPage(string pageName)

@@ -21,7 +21,11 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
 
         public IBook GetCurrentBook()
         {
-            return _bookHistory.Peek();
+            if (_bookHistory.TryPeek(out IBook book))
+            {
+                return book;
+            }
+            return null;
         }
 
         public async Task PushBook(IBook book, IPage page, bool isClearHistory = false)
@@ -76,7 +80,10 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
 
         public async Task PopBook()
         {
-            IBook previousBook = _bookHistory.Pop();
+            if (!_bookHistory.TryPop(out IBook previousBook))
+            {
+                return;
+            }
 
             await previousBook.PreExitTransition();
             await previousBook.ExitTransition();
@@ -84,20 +91,24 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
 
             await previousBook.Close();
 
-            IBook book = _bookHistory.Peek();
+            if (_bookHistory.TryPeek(out IBook book))
+            {
+                await book.PreEntryTransition();
+                await book.EntryTransition();
+                await book.PostEntryTransition();
 
-            await book.PreEntryTransition();
-            await book.EntryTransition();
-            await book.PostEntryTransition();
-
-            await book.Open();
+                await book.Open();
+            }
             return;
         }
 
         public IBook PeekBook()
         {
-            return _bookHistory.Peek();
-
+            if (_bookHistory.TryPeek(out IBook book))
+            {
+                return book;
+            }
+            return null;
         }
 
         /// <summary>

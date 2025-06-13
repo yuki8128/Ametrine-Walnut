@@ -17,7 +17,7 @@ public class SampleBook : Book
         throw new System.NotImplementedException();
     }
 
-    public new UniTask NextBook(IBook book)
+    public UniTask NextBook(IBook book)
     {
         throw new System.NotImplementedException();
     }
