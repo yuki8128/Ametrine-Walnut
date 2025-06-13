@@ -59,6 +59,9 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             defaultBook.SetDefaultPage(defaultPage);
             _desk.SetDefaultBook(defaultBook);
 
+            // デフォルトのブックを開く
+            await defaultBook.Open(defaultPage);
+
             isInited = true;
         }
 
