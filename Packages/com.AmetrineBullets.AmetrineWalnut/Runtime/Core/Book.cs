@@ -86,7 +86,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             await page.PostPageExitBackPrevious();
 
             await EasyPageHide(page);
-            
+
             // ページをスタックから削除し、Bookへの参照をクリア
             _pageHistory.Pop();
             page.ParentBook = null;
@@ -162,13 +162,14 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             // 新しいページの表示処理
             // TODO この辺の処理がUnityのライフサイクル(Startとか)と一致していないのでどこかでStartが終わって処理が再開するような感じにしたい。
 
+            // ページにこのBookへの参照を設定
+            page.ParentBook = this;
+
             await page.Init();
 
             await page.ObjectLoad();
-            
-            // ページにこのBookへの参照を設定
-            page.ParentBook = this;
-            
+
+
             _pageHistory.Push(page);
 
             await page.PreEntryTransition();
