@@ -47,14 +47,16 @@ public class SampleTopPage : Page<SampleTopPage>
         await UniTask.RunOnThreadPool(() => { });
     }
 
-    public override UniTask PageVisible()
+    public override async UniTask PageVisible()
     {
-        throw new NotImplementedException();
+        // テスト用の空実装
+        await UniTask.CompletedTask;
     }
 
-    public override UniTask PageInvisible()
+    public override async UniTask PageInvisible()
     {
-        throw new NotImplementedException();
+        // テスト用の空実装
+        await UniTask.CompletedTask;
     }
 
     public override async UniTask OnTransitionIn(UniTaskCompletionSource loadPageCompletionSource)

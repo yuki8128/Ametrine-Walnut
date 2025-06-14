@@ -6,15 +6,18 @@ using Cysharp.Threading.Tasks;
 
 public class SampleBook : Book
 {
-    public new string BookName { get; set; } = "sample";
-    public override UniTask Open(IPage page = null)
+    public SampleBook()
     {
-        throw new System.NotImplementedException();
+        BookName = "sample";
     }
-
-    public new UniTask Close()
+    
+    public override async UniTask Open(IPage page = null)
     {
-        throw new System.NotImplementedException();
+        // テスト用の簡単な実装
+        if (page != null)
+        {
+            await PushPage(page);
+        }
     }
 
     public UniTask NextBook(IBook book)

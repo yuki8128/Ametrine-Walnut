@@ -14,6 +14,11 @@ namespace com.AmetrineBullets.AmetrineWalnut.Unity
         {
             base.defaultPage = defaultPage;
             base.BookName = bookName;
+            // デフォルトページに親Bookを設定
+            if (defaultPage != null)
+            {
+                defaultPage.ParentBook = this;
+            }
         }
 
         public override async UniTask Open(IPage page = null)
