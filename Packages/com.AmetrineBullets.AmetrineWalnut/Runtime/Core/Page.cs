@@ -23,6 +23,8 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
         public string JsonParameters { get; private set; }
 
         public string PageName { get; set; }
+        
+        public IBook ParentBook { get; set; }
 
         public abstract bool IsEqualPage(PageNameEnum pageName);
 

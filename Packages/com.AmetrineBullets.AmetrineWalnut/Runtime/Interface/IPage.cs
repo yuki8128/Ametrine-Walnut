@@ -15,6 +15,9 @@ namespace com.AmetrineBullets.AmetrineWalnut.Interface
         public string JsonParameters { get; }
 
         public string PageName { get; }
+        
+        // このページが属するBookへの参照
+        public IBook ParentBook { get; set; }
 
         public async Task Init()
         {

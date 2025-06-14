@@ -33,6 +33,8 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             foreach (var page in _pageHistory.Reverse())
             {
                 await EasyPageHide(page);
+                // 各ページからBookへの参照をクリア
+                page.ParentBook = null;
             }
             // Page スタックをクリア
             _pageHistory.Clear();
@@ -84,7 +86,10 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             await page.PostPageExitBackPrevious();
 
             await EasyPageHide(page);
-
+            
+            // ページをスタックから削除し、Bookへの参照をクリア
+            _pageHistory.Pop();
+            page.ParentBook = null;
         }
 
         public virtual IPage PeekPage()
@@ -98,7 +103,13 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
 
         public IPage GoToBackPage(string pageName)
         {
-            return _pageHistory.PopForTargetItem(pageName);
+            var page = _pageHistory.PopForTargetItem(pageName);
+            if (page != null)
+            {
+                // 削除されたページからBookへの参照をクリア
+                page.ParentBook = null;
+            }
+            return page;
         }
 
         public IPage GetDefaultPage()
@@ -154,6 +165,10 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             await page.Init();
 
             await page.ObjectLoad();
+            
+            // ページにこのBookへの参照を設定
+            page.ParentBook = this;
+            
             _pageHistory.Push(page);
 
             await page.PreEntryTransition();
@@ -177,6 +192,8 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
 
             await EasyPageHide(page);
 
+            // ページからBookへの参照をクリア
+            page.ParentBook = null;
             _pageHistory.Pop();
         }
 
