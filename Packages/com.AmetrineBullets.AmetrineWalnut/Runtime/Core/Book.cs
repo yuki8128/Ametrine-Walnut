@@ -40,24 +40,21 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             _pageHistory.Clear();
         }
 
-        public virtual async Task PushPage(IPage page, bool isHistoryClear = false)
+        public virtual async Task PushPage(IPage page, bool hideVisiblePages = false, bool isHistoryClear = false)
         {
             UniTask EntryTransitionTask = new UniTask();
 
-            // 元々表示されているページを非表示にする必要はないのでは？
             // ページはスタックして表示するから非表示にする意味がないはず。 
-            // // 元々表示されてるページの非表示処理
-            // if (_pageHistory.Count > 0)
-            // {
-            //     IPage previousPage = _pageHistory.Peek();
-            //     await previousPage.PreExitTransition();
-            //     await previousPage.ExitTransition();
-            //     await previousPage.PostEntryTransition();
+            // 元々表示されてるページの非表示処理
+            if (hideVisiblePages && _pageHistory.Count > 0)
+            {
+                // 履歴にあるすべてのページを非表示にする
+                foreach (var historyPage in _pageHistory)
+                {
+                    await EasyPageHide(historyPage);
+                }
+            }
 
-            //     await previousPage.PrePageInvisible();
-            //     await previousPage.PageInvisible();
-            //     await previousPage.PostPageInvisible();
-            // }
 
             if (isHistoryClear)
             {

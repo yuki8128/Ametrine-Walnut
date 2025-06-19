@@ -58,7 +58,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Interface
         public Task Close();
 
         //        自身にページがpushされた時
-        public Task PushPage(IPage page, bool isHistoryClear = false);
+        public Task PushPage(IPage page, bool hideVisiblePages = false, bool isHistoryClear = false);
 
         //        自身の配下のページをpopする時
         public Task PopPage();
