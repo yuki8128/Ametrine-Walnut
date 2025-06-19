@@ -12,7 +12,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Interface
     public interface IPageManagement
     {
         public Task Init(IBook defaultBook, IPage defaultPage, bool isForceInit);
-        public Task PushPage(IPage page, IBook book = null, bool isClearHistory = false);
+        public Task PushPage(IPage page, IBook book = null, bool hideVisiblePages = false, bool isClearHistory = false);
         public Task PopPage();
         public Task PopBook();
 

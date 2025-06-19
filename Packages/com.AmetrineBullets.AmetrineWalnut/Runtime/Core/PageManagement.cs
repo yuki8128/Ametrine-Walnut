@@ -65,7 +65,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             isInited = true;
         }
 
-        public virtual async Task PushPage(IPage page, IBook book = null, bool isClearHistory = false)
+        public virtual async Task PushPage(IPage page, IBook book = null, bool hideVisiblePages = false, bool isClearHistory = false)
         {
             if (book != null)
             {
@@ -73,7 +73,7 @@ namespace com.AmetrineBullets.AmetrineWalnut.Core
             }
             else
             {
-                await _desk.GetCurrentBook().PushPage(page, isClearHistory);
+                await _desk.GetCurrentBook().PushPage(page, hideVisiblePages, isClearHistory);
             }
 
             page.AfterPush().Forget();
