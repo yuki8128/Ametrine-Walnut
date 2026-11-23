@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using UnityEngine.TestTools;
 using com.AmetrineBullets.AmetrineWalnut.Core;
+using com.AmetrineBullets.AmetrineWalnut.Interface;
 using UnityEngine;
 #if UNITY_EDITOR || UNITY_STANDALONE
 using Cysharp.Threading.Tasks;
@@ -10,6 +11,24 @@ namespace TestScripts
 {
     public class PageBookAssociationTest
     {
+        [UnityTest]
+        public System.Collections.IEnumerator PushPage_Waits_For_Asset_Load_Before_Showing_Page()
+        {
+            var book = new SampleBook();
+            var page = new LoadControlledPage { PageName = "LoadingPage" };
+            var push = book.PushPage(page);
+
+            Assert.That(page.ParentBook, Is.SameAs(book));
+            Assert.That(book.PeekPage(), Is.Null);
+            Assert.That(page.IsVisible, Is.False);
+
+            page.AssetLoad.TrySetResult();
+            yield return push.ToCoroutine();
+
+            Assert.That(book.PeekPage(), Is.SameAs(page));
+            Assert.That(page.IsVisible, Is.True);
+        }
+
         [UnityTest]
         public System.Collections.IEnumerator Page_Should_Know_Its_Parent_Book()
         {
@@ -68,6 +87,26 @@ namespace TestScripts
             // Assert
             Assert.That(page1.ParentBook, Is.Null, "Page 1 should not have parent book after book closes");
             Assert.That(page2.ParentBook, Is.Null, "Page 2 should not have parent book after book closes");
+        }
+
+        private sealed class LoadControlledPage : Page<LoadControlledPage>, IPage
+        {
+            public UniTaskCompletionSource AssetLoad { get; } = new UniTaskCompletionSource();
+            public bool IsVisible { get; private set; }
+
+            public UniTask Init() => UniTask.CompletedTask;
+
+            public UniTask ObjectLoad() => AssetLoad.Task;
+
+            public override bool IsEqualPage(PageNameEnum pageName) => false;
+
+            public override UniTask PageVisible()
+            {
+                IsVisible = true;
+                return UniTask.CompletedTask;
+            }
+
+            public override UniTask PageInvisible() => UniTask.CompletedTask;
         }
     }
 }
